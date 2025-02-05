@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package logservice;
+
+option go_package = "github.com/gbburleigh/quick-logger/proto/logservice";
+
+service LogService {
+  rpc StreamLogs(stream LogEntry) returns (LogResponse);
+}
+
+message LogEntry {
+  string timestamp = 1;
+  string level = 2;
+  string message = 3;
+    map<string, string> metadata = 4;
+}
+
+message LogResponse {
+  string message = 1;
+}
