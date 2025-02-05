@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/gbburleigh/quick-logger/proto/logservice" // Replace with your path
+	pb "github.com/gbburleigh/quick-logger/proto/logservice"
 	"google.golang.org/grpc"
 )
 
@@ -23,7 +23,7 @@ func NewLogStreamer() (*LogStreamer, error) {
 		return nil, fmt.Errorf("GRPC_SERVER_ADDRESS environment variable not set")
 	}
 
-	conn, err := grpc.Dial(address, grpc.WithInsecure()) // Insecure for now
+	conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		return nil, fmt.Errorf("did not connect: %w", err)
 	}

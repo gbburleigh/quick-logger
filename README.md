@@ -34,7 +34,7 @@ This library provides a simple and efficient way to stream logs to a user-provid
 3.  **Get the library:**
 
     ```bash
-    go get github.com/gbburleigh/log-streaming-library]([invalid URL removed]) // Replace with your repository path
+    go get github.com/gbburleigh/quick-logger
     ```
 
 ### Usage
@@ -49,7 +49,7 @@ This library provides a simple and efficient way to stream logs to a user-provid
 2.  **Import the library:**
 
     ```go
-    import "[github.com/gbburleigh/log-streaming-library/streamer [invalid URL removed]"
+    import "github.com/gbburleigh/quick-logger/pkg/logger"
     ```
 
 3.  **Create a `LogStreamer` instance and send logs:**
@@ -63,22 +63,25 @@ This library provides a simple and efficient way to stream logs to a user-provid
         "os"
         "time"
 
-        "github.com/gbburleigh/log-streaming-library/streamer [invalid URL removed]"
+        "github.com/gbburleigh/pkg/streamer"
     )
 
     func main() {
-        os.Setenv("GRPC_SERVER_ADDRESS", "localhost:50051") // Only for this example, users should set this themselves
-
+        address := os.Getenv("GRPC_SERVER_ADDRESS")
+        if address == "" {
+            os.Setenv("GRPC_SERVER_ADDRESS", "localhost:50051")
+        }
+        
         ls, err := streamer.NewLogStreamer()
         if err != nil {
             log.Fatal(err)
         }
-        defer ls.Close() // Important to close the stream when finished
+        defer ls.Close()
 
         for i := 0; i < 10; i++ {
             err := ls.SendLog("INFO", fmt.Sprintf("Log message #%d", i), map[string]string{"source": "example"})
             if err != nil {
-                log.Println(err) // Handle errors appropriately
+                log.Println(err)
             }
             time.Sleep(time.Second)
         }

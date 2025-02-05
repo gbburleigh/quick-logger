@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/gbburleigh/quick-logger/pkg/logger" // Replace yourmodule
+	"github.com/gbburleigh/quick-logger/pkg/logger"
 )
 
 func main() {

@@ -29,7 +29,7 @@ type Logger struct {
 
 func NewLogger() *Logger {
 	return &Logger{
-		log: log.New(os.Stdout, "", 0), // Basic setup, can be customized
+		log: log.New(os.Stdout, "", 0),
 	}
 }
 
@@ -40,9 +40,14 @@ func (l *Logger) Log(level LogLevel, message string) {
 		Message:   message,
 	}
 
-	// Basic output for now. In a real application, you would serialize this to JSON
-	// or another format suitable for sending over the network.
 	l.log.Printf("[%s] %s: %s\n", entry.Timestamp.Format(time.RFC3339), entry.Level, entry.Message)
+
+	streamer, err := streamer.NewLogStreamer()
+	if err != nil {
+		log.Fatalf("Failed to create log streamer: %v", err)
+	}
+
+	streamer.SendLog(entry.Level, entry.Message, nil)
 }
 
 func (l *Logger) Info(message string) {
